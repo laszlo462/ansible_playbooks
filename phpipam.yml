@@ -1,5 +1,4 @@
 - hosts: phpipam
-  become: true
   roles:
     - role: ansible-apache2
     - role: ansible-mariadb-mysql

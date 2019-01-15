@@ -11,7 +11,7 @@
   - name: Add Vim 8.0 repository for Xenial systems
     apt_repository:
       repo: ppa:jonathonf/vim
-      when: ansible_facts['distribution_major_version'] == "16"
+    when: ansible_facts['distribution_major_version'] == "16"
 
   - name: Upgrade all packages
     apt:

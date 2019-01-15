@@ -7,5 +7,3 @@
       state: latest
       update_cache: yes
       force_apt_get: true
-      register: out
-  - debug: var=out.stdout_lines

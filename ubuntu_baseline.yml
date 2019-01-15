@@ -22,13 +22,14 @@
   - name: Ensuring vim, git, and snmp are installed for all baseline systems.
     apt:
       name: "{{ packages }}"
+      update_cache: yes
+      cache_valid_time: 3600
+      force_apt_get: true
     vars:
       packages:
       - vim
       - git
       - snmp
-    update_cache: yes
-    cache_valid_time: 3600
 
   - name: Execute git config to set default user
     command: git config --global user.name "Steve Szabo"

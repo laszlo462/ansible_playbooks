@@ -18,6 +18,7 @@
       name: "*"
       state: latest
       update_cache: yes
+      force_apt_get: true
 
   - name: Ensuring vim, git, and snmp are installed for all baseline systems.
     apt:

@@ -1,0 +1,18 @@
+---
+- hosts: docker
+  remote_user: sszabo
+  become: yes
+  tasks:
+  - name: Download script from get.docker.com
+    get_url:
+      url: https://get.docker.com
+      dest: ~/.get-docker.sh
+
+  - name: Execute get-docker.sh script
+    command: sh ~/.get-docker.sh
+
+  - name: Adding sszabo user to Docker group
+    user:
+      name: sszabo
+      group: docker
+      append: yes

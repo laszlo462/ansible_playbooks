@@ -46,5 +46,4 @@
 
   - name: Baseline apt cleanup
     apt:
-      autoremove: yes
       autoclean: yes

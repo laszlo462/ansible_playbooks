@@ -1,4 +1,7 @@
+---
 - hosts: phpipam
+  remote_user: sszabo
+  become: yes
   roles:
     - role: ansible-apache2
     - role: ansible-mariadb-mysql

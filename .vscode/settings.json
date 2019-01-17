@@ -1,0 +1,7 @@
+{
+    "ansible.credentialsConfigured": true,
+    
+    "files.associations": {
+        "**/*.yml": "ansible"
+    },
+}

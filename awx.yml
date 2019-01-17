@@ -1,3 +1,4 @@
+---
 - hosts: ansible-tower
   remote_user: sszabo
   become: true

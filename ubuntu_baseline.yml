@@ -1,5 +1,5 @@
 ---
-- hosts: ubuntu
+- hosts: ubuntu:debian
   remote_user: sszabo
   become: yes
   tasks:
@@ -31,6 +31,7 @@
       - vim
       - git
       - snmp
+      - qemu-guest-agent
 
   - name: Execute git config to set default user
     command: git config --global user.name "Steve Szabo"

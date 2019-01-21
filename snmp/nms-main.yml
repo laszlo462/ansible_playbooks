@@ -1,0 +1,40 @@
+---
+- hosts: all
+  remote_user: sszabo
+  become: yes
+  tasks:
+  - name: Ensuring rsync in present
+    apt:
+      name: rsync
+      state: latest
+      update_cache: yes
+      force_apt_get: true
+
+  - name: Copying default snmpd.conf file
+    synchronize:
+      src: /opt/librenms/snmpd.conf.laszlolan
+      dest: /etc/snmp/snmpd.conf
+    delegate_to: nms
+
+  - name: Obtain current distro extend script from LibreNMS repo
+    get_url:
+      url: https://raw.githubusercontent.com/librenms/librenms-agent/master/snmp/distro
+      dest: /usr/bin/distro
+
+  - name: Set execute permissions on distro script
+    file:
+      path: /usr/bin/distro
+      mode: "+x"
+
+  - name: Restarting SNMP service
+    service:
+      name: snmpd
+      state: restarted
+
+  - name: Cloning librenms-agent repo
+    git:
+      repo: 'https://github.com/librenms/librenms-agent.git'
+      dest: /opt/librenms-agent/
+      version: master
+
+  - name: Copying check_mk agent to /usr/bin

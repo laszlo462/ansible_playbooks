@@ -13,7 +13,7 @@
   - name: Obtain default snmpd.conf file from git repo
     git:
       repo: "https://oauth2:{{ gitlabtoken }}@gitlab.laszlo462.com/sszabo/snmp-config.git"
-      dest: /home/sszabo
+      dest: /home/sszabo/snmp-config/
 
   - name: Overwrite default snmpd.conf
     copy: src=/home/sszabo/snmp-config/snmpd.conf dest=/etc/snmp/snmpd.conf

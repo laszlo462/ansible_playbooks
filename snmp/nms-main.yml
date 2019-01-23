@@ -10,11 +10,13 @@
       update_cache: yes
       force_apt_get: true
 
-  - name: Copying default snmpd.conf file
-    synchronize:
-      src: /opt/librenms/snmpd.conf.laszlolan
-      dest: /etc/snmp/snmpd.conf
-    delegate_to: nms
+  - name: Obtain default snmpd.conf file from git repo
+    git:
+      repo: "https://oauth2:{{ gitlabtoken }}@gitlab.laszlo462.com/sszabo/snmp-config.git"
+      dest: /home/sszabo
+
+  - name: Overwrite default snmpd.conf
+    copy: src=/home/sszabo/snmp-config/snmpd.conf dest=/etc/snmp/snmpd.conf
 
   - name: Obtain current distro extend script from LibreNMS repo
     get_url:

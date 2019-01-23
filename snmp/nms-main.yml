@@ -16,7 +16,8 @@
       dest: /home/sszabo/snmp-config/
 
   - name: Overwrite default snmpd.conf
-    copy: src=/home/sszabo/snmp-config/snmpd.conf dest=/etc/snmp/snmpd.conf
+    #copy: src=/home/sszabo/snmp-config/snmpd.conf dest=/etc/snmp/snmpd.conf
+    command: cp /home/ssabo/snmp-config/snmpd.conf /etc/snmp/snmpd.conf
 
   - name: Obtain current distro extend script from LibreNMS repo
     get_url:

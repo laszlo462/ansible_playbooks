@@ -38,3 +38,42 @@
       version: master
 
   - name: Copying check_mk agent to /usr/bin
+    copy: src=/opt/librenms-agent/check_mk_agent dest=/usr/bin/check_mk_agent
+
+  - name: Copying service files into place
+    copy: src=/opt/librenms-agent/{{ item }} dest=/etc/systemd/system/{{ item }}
+    with_items:
+      - check_mk@.service
+      - check_mk.socket
+
+  - name: Set execute permissions on check_mk_agent
+    file:
+      path: /usr/bin/check_mk_agent
+      mode: "+x"
+
+  - name: Create mk_agent directories
+    command: mkdir -p /usr/lib/check_mk_agent/plugins /usr/lib/check_mk_agent/local
+
+  - name: Starting check_mk service and setting to start on boot
+    service:
+      name: check_mk.socket
+      state: started
+      enabled: yes
+
+  - name: Adding OSUpdate script
+    copy: src=/opt/librenms-agent/snmp/osupdate dest=/etc/snmpd/osupdate
+
+  - name: Set execute permissions on osupdate script
+    file:
+      path: /etc/snmpd/osupdate
+      mode: "+x"
+
+  - name: Creating apt period package update configuration
+    copy:
+      dest: "/etc/apt/apt.conf.d/10periodic"
+      content: APT::Periodic::Update-Package-Lists "1";
+
+  - name: Restarting SNMP service
+    service:
+      name: snmpd
+      state: restarted

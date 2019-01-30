@@ -30,14 +30,14 @@
       packages:
       - vim
       - git
-      - snmp
+      - snmpd
       - qemu-guest-agent
 
   - name: Execute git config to set default user
     command: git config --global user.name "Steve Szabo"
 
   - name: Execute git config to set default email
-    command: git config --global user.email "laszlo.steve@gmail.com"
+    command: git config --global user.email "sszabo462@protonmail.com"
 
   - name: Pull Amix vimrc package from github
     command: git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime

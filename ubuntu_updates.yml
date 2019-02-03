@@ -9,3 +9,11 @@
       state: latest
       update_cache: yes
       force_apt_get: true
+  - name: Running Apt Autoremove
+    apt:
+      autoremove: yes
+      force_apt_get: true
+  - name: Running Apt Cleanup
+    apt:
+      autoclean: yes
+      force_apt_get: true

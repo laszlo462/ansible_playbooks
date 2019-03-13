@@ -19,3 +19,9 @@
   - name: Install Rancher 2.x supported Docker version
     apt:
       deb: https://download.docker.com/linux/ubuntu/dists/xenial/pool/stable/amd64/docker-ce_18.09.2~3-0~ubuntu-xenial_amd64.deb
+
+  - name: Adding sszabo to Docker group
+    command: usermod -aG docker sszabo
+
+  - name: Marking docker-ce to be held at current version
+    command: apt-mark hold docker-ce

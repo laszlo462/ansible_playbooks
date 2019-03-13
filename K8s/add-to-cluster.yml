@@ -4,4 +4,4 @@
   become: yes
   tasks:
     - name: Docker run launching k8s node for laszlo462-k8s-lab
-      command: sudo docker run -d --privileged --restart=unless-stopped --net=host -v /etc/kubernetes:/etc/kubernetes -v /var/run:/var/run rancher/rancher-agent:v2.1.7 --server https://rancher1.lan.laszlo462.com --token 2fslgv7z2lbdg5mstrs5shbvbjt84mk5rgvcqj8dsdw587549pwr8j --ca-checksum 192dae392a4bbf4e369d27268e4868dc0039a4ea094b3c4c3ebe7e4c410a39fe --etcd --controlplane --worker
+      command: docker run -d --privileged --restart=unless-stopped --net=host -v /etc/kubernetes:/etc/kubernetes -v /var/run:/var/run rancher/rancher-agent:v2.1.7 --server https://rancher1.lan.laszlo462.com --token d4s5gsjpmbpx9t66k8qtm7nkf7ns75tqfbn45bwngb6ns4cmdjdfxr --ca-checksum 9280b4cbbbc13c599e6bf3a1886d519ecda1bef9747977c1696c0938773cddbf --etcd --controlplane --worker

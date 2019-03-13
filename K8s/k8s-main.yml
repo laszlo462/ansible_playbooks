@@ -3,10 +3,14 @@
   remote_user: sszabo
   become: yes
   tasks:
-  - name: Install docker-ce dependancy
+  - name: Install docker-ce dep
     apt:
       name: libltdl7
       update_cache: yes
+
+  - name: Install docker-ce-cli dep
+    apt:
+      deb: https://download.docker.com/linux/ubuntu/dists/xenial/pool/stable/amd64/docker-ce-cli_18.09.2~3-0~ubuntu-xenial_amd64.deb
 
   - name: Install Rancher 2.x supported Docker version
     apt:

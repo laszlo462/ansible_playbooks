@@ -12,6 +12,10 @@
     apt:
       deb: https://download.docker.com/linux/ubuntu/dists/xenial/pool/stable/amd64/docker-ce-cli_18.09.2~3-0~ubuntu-xenial_amd64.deb
 
+  - name: Install containerd dep too
+    apt:
+      deb: https://download.docker.com/linux/ubuntu/dists/xenial/pool/stable/amd64/containerd.io_1.2.2-3_amd64.deb
+
   - name: Install Rancher 2.x supported Docker version
     apt:
       deb: https://download.docker.com/linux/ubuntu/dists/xenial/pool/stable/amd64/docker-ce_18.09.2~3-0~ubuntu-xenial_amd64.deb

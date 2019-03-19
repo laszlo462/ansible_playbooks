@@ -10,14 +10,8 @@
       update_cache: yes
       force_apt_get: true
 
-  - name: Obtain default snmpd.conf file from git repo
-    git:
-      repo: "https://oauth2:{{ gitlabtoken }}@gitlab.laszlo462.com/sszabo/snmp-config.git"
-      dest: /home/sszabo/snmp-config/
-
   - name: Overwrite default snmpd.conf
-    #copy: src=/home/sszabo/snmp-config/snmpd.conf dest=/etc/snmp/snmpd.conf
-    command: cp /home/sszabo/snmp-config/snmpd.conf /etc/snmp/snmpd.conf
+    copy: src=/var/lib/awx/projects/snmpd.conf dest=/etc/snmp/snmpd.conf
 
   - name: Obtain current distro extend script from LibreNMS repo
     get_url:
@@ -41,10 +35,10 @@
       version: master
 
   - name: Copying check_mk agent to /usr/bin
-    copy: src=/opt/librenms-agent/check_mk_agent dest=/usr/bin/check_mk_agent
+    command: cp /opt/librenms-agent/check_mk_agent /usr/bin/check_mk_agent
 
   - name: Copying service files into place
-    copy: src=/opt/librenms-agent/{{ item }} dest=/etc/systemd/system/{{ item }}
+    command: cp /opt/librenms-agent/{{ item }} /etc/systemd/system/{{ item }}
     with_items:
       - check_mk@.service
       - check_mk.socket
@@ -64,7 +58,7 @@
       enabled: yes
 
   - name: Adding OSUpdate script
-    copy: src=/opt/librenms-agent/snmp/osupdate dest=/etc/snmpd/osupdate
+    command: cp /opt/librenms-agent/snmp/osupdate /etc/snmpd/osupdate
 
   - name: Set execute permissions on osupdate script
     file:

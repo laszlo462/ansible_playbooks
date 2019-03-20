@@ -1,0 +1,80 @@
+---
+- hosts: all
+  remote_user: sszabo
+  become: yes
+  tasks:
+  - name: Ensuring rsync and snmpd are present
+    apt:
+      name: "{{ packages }}"
+      state: latest
+      update_cache: yes
+      force_apt_get: true
+    vars:
+      packages:
+      - rsync
+      - snmpd
+
+  - name: Overwrite default snmpd.conf
+    copy: src=/var/lib/awx/projects/snmpd.conf dest=/etc/snmp/snmpd.conf
+
+  - name: Obtain current distro extend script from LibreNMS repo
+    get_url:
+      url: https://raw.githubusercontent.com/librenms/librenms-agent/master/snmp/distro
+      dest: /usr/bin/distro
+
+  - name: Set execute permissions on distro script
+    file:
+      path: /usr/bin/distro
+      mode: "+x"
+
+  - name: Restarting SNMP service
+    service:
+      name: snmpd
+      state: restarted
+
+  - name: Cloning librenms-agent repo
+    git:
+      repo: 'https://github.com/librenms/librenms-agent.git'
+      dest: /opt/librenms-agent/
+      version: master
+
+  - name: Copying check_mk agent to /usr/bin
+    command: cp /opt/librenms-agent/check_mk_agent /usr/bin/check_mk_agent
+
+  - name: Copying service files into place
+    command: cp /opt/librenms-agent/{{ item }} /etc/systemd/system/{{ item }}
+    with_items:
+      - check_mk@.service
+      - check_mk.socket
+
+  - name: Set execute permissions on check_mk_agent
+    file:
+      path: /usr/bin/check_mk_agent
+      mode: "+x"
+
+  - name: Create mk_agent directories
+    command: mkdir -p /usr/lib/check_mk_agent/plugins /usr/lib/check_mk_agent/local
+
+  - name: Starting check_mk service and setting to start on boot
+    service:
+      name: check_mk.socket
+      state: started
+      enabled: yes
+
+  - name: Adding OSUpdate script
+    command: cp /opt/librenms-agent/snmp/osupdate /etc/snmp/osupdate
+
+  - name: Set execute permissions on osupdate script
+    file:
+      path: /etc/snmp/osupdate
+      mode: "+x"
+
+  - name: Creating apt period package update configuration
+    copy:
+      dest: "/etc/apt/apt.conf.d/10periodic"
+      content: APT::Periodic::Update-Package-Lists "1";
+
+  - name: Restarting SNMP service
+    service:
+      name: snmpd
+      state: restarted

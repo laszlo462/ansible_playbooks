@@ -1,5 +1,5 @@
 ---
-- hosts: ubuntu|debian
+- hosts: all
   remote_user: sszabo
   become: yes
   tasks:

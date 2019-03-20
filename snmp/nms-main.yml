@@ -3,12 +3,16 @@
   remote_user: sszabo
   become: yes
   tasks:
-  - name: Ensuring rsync in present
+  - name: Ensuring rsync and snmpd are present
     apt:
-      name: rsync
+      name: "{{ packages }}"
       state: latest
       update_cache: yes
       force_apt_get: true
+    vars:
+      packages:
+      - rsync
+      - snmpd
 
   - name: Overwrite default snmpd.conf
     copy: src=/var/lib/awx/projects/snmpd.conf dest=/etc/snmp/snmpd.conf

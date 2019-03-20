@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: ubuntu|debian
   remote_user: sszabo
   become: yes
   tasks:
@@ -58,11 +58,11 @@
       enabled: yes
 
   - name: Adding OSUpdate script
-    command: cp /opt/librenms-agent/snmp/osupdate /etc/snmpd/osupdate
+    command: cp /opt/librenms-agent/snmp/osupdate /etc/snmp/osupdate
 
   - name: Set execute permissions on osupdate script
     file:
-      path: /etc/snmpd/osupdate
+      path: /etc/snmp/osupdate
       mode: "+x"
 
   - name: Creating apt period package update configuration

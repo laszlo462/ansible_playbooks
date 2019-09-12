@@ -1,0 +1,16 @@
+---
+- hosts: ubuntu:debian
+  remote_user: sszabo
+  become: yes
+  tasks:
+  - name: Update aptproxy http config
+    lineinfile:
+      path: /etc/apt/apt.conf.d/00aptproxy
+      regexp: '^Acquire'
+      line: Acquire::http { Proxy "http://192.168.1.10:3142"; };
+
+  - name: Add aptproxy https config to ensure http is used
+    lineinfile:
+      path: /etc/apt/apt.conf.d/00aptproxy
+      insertafter: EOF
+      line: Acquire::https { Proxy "https://"; };

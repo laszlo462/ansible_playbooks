@@ -8,6 +8,12 @@
       dest: "/etc/apt/apt.conf.d/00aptproxy"
       content: Acquire::http { Proxy "http://192.168.1.10:3142"; };
 
+  - name: Add aptproxy https config to ensure http is used
+    lineinfile:
+      path: /etc/apt/apt.conf.d/00aptproxy
+      insertafter: EOF
+      line: Acquire::https { Proxy "https://"; };
+
   - name: Add Vim 8.0 repository for Xenial systems
     apt_repository:
       repo: ppa:jonathonf/vim
